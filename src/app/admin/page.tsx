@@ -1,10 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
-// const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001"
 const API_BASE = "https://site-immo-backend.onrender.com"
-
 
 interface Property {
   id: string
@@ -20,6 +19,9 @@ interface Property {
 }
 
 export default function Admin() {
+  const router = useRouter()
+  const [authChecked, setAuthChecked] = useState(false)
+
   const [properties, setProperties] = useState<Property[]>([])
   const [title, setTitle] = useState("")
   const [price, setPrice] = useState("")
@@ -32,13 +34,26 @@ export default function Admin() {
   const [description, setDescription] = useState("")
   const [loading, setLoading] = useState(false)
 
+  // Protection simple: redirige vers /admin-login si pas "loggé"
   useEffect(() => {
+    if (typeof window === "undefined") return
+    const ok = localStorage.getItem("valerie-admin-ok") === "1"
+    if (!ok) {
+      router.replace("/admin-login")
+    } else {
+      setAuthChecked(true)
+    }
+  }, [router])
+
+  // Charge les biens seulement après vérification d'accès
+  useEffect(() => {
+    if (!authChecked) return
     console.log("API_BASE =", API_BASE)
     fetch(`${API_BASE}/api/proprietes`)
       .then((res) => res.json())
       .then((data) => (Array.isArray(data) ? setProperties(data) : setProperties([])))
       .catch((err) => console.error("Erreur fetch propriétés:", err))
-  }, [])
+  }, [authChecked])
 
   const addProperty = async () => {
     if (!title.trim()) return
@@ -62,7 +77,6 @@ export default function Admin() {
       const property: Property = await res.json()
       setProperties((prev) => [property, ...prev])
 
-      // reset formulaire
       setTitle("")
       setPrice("")
       setCity("")
@@ -96,10 +110,31 @@ export default function Admin() {
     }
   }
 
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white text-gray-700">
+        Vérification de l&apos;accès...
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-white text-gray-900 p-8">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">Admin Valérie Invest</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold">Admin Valérie Invest</h1>
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                localStorage.removeItem("valerie-admin-ok")
+              }
+              router.replace("/admin-login")
+            }}
+            className="text-sm px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+          >
+            Se déconnecter
+          </button>
+        </div>
 
         {/* Formulaire ajout */}
         <div className="bg-white p-6 rounded-xl shadow-lg mb-8 border border-gray-200">
@@ -204,7 +239,7 @@ export default function Admin() {
                     <p className="text-sm text-gray-600">
                       {prop.rooms ? `${prop.rooms} pièces` : ""}{" "}
                       {prop.area ? `• ${prop.area} m²` : ""}{" "}
-                      {prop.floor ? `• ${prop.floor}ᵉ étage` : ""}{" "}
+                      {prop.floor ? `• {prop.floor}ᵉ étage` : ""}{" "}
                       {prop.hasParking ? "• Parking" : ""}
                     </p>
                     {prop.description && (
