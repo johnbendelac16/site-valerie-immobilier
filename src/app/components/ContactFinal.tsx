@@ -134,13 +134,13 @@ export default function ContactFinal() {
             </button>
             <div className="flex gap-3">
               <a
-                href="https://wa.me/972XXXXXXXXX"
+                href="https://wa.me/972537081641"
                 className="bg-green-500 text-white px-4 py-3 rounded-xl font-semibold text-sm hover:bg-green-600 shadow w-full sm:w-auto text-center"
               >
                 WhatsApp direct
               </a>
               <a
-                href="tel:+972XXXXXXXXX"
+                href="tel:+972537081641"
                 className="bg-white text-blue-700 border border-blue-400 px-4 py-3 rounded-xl font-semibold text-sm hover:bg-blue-50 shadow w-full sm:w-auto text-center"
               >
                 Appeler

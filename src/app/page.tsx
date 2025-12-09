@@ -91,7 +91,7 @@ export default function Home() {
                 Voir mes exclusivités
               </a>
               <a
-                href="https://wa.me/972XXXXXXXXX"
+                href="https://wa.me/972537081641"
                 className="border border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white/10 transition"
               >
                 Parler sur WhatsApp
@@ -316,13 +316,13 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-xl mx-auto">
             <a
-              href="https://wa.me/972XXXXXXXXX"
+              href="https://wa.me/972537081641"
               className="bg-green-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-600 shadow-lg w-full sm:w-auto text-center"
             >
               Écrire sur WhatsApp
             </a>
             <a
-              href="tel:+972XXXXXXXXX"
+              href="tel:+972537081641"
               className="bg-white text-blue-700 border border-blue-400 px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 shadow w-full sm:w-auto text-center"
             >
               Appeler maintenant

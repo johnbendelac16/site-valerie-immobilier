@@ -79,13 +79,13 @@ export default function PropertyPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href="https://wa.me/972XXXXXXXXX"
+                href="https://wa.me/972537081641"
                 className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-700"
               >
                 Contacter sur WhatsApp
               </a>
               <a
-                href="tel:+972XXXXXXXXX"
+                href="tel:+972537081641"
                 className="bg-white text-blue-700 border border-blue-400 px-6 py-3 rounded-xl font-bold text-center hover:bg-blue-50"
               >
                 Appeler
