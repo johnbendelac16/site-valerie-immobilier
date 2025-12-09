@@ -73,38 +73,44 @@ export default function ContactFinal() {
         <form onSubmit={onSubmit} className="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
             <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+             text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               placeholder="Nom complet *"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+             text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+             text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               placeholder="Téléphone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
             <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+             text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               placeholder="Ville souhaitée"
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />
             <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm md:col-span-2"
+               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+             text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               placeholder="Budget (ex: 2.500.000 ₪)"
               value={budget}
               onChange={(e) => setBudget(e.target.value)}
             />
           </div>
           <textarea
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm min-h-[100px]"
+             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+             text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             placeholder="Parlez-moi de votre projet (type de bien, timing, questions...)"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
