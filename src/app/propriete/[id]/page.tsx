@@ -63,8 +63,8 @@ export default function PropertyPage() {
             </div>
           )}
           <div className="p-6 md:p-8">
-            <h1 className="text-3xl font-bold mb-2">{property.title}</h1>
-            <p className="text-gray-600 mb-2">{property.city}</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 text-gray-900"></h1>
+            <p className="text-gray-700 mb-2">{property.city}</p>
             <p className="text-3xl font-bold text-blue-600 mb-4">{property.price}</p>
             <div className="flex flex-wrap gap-3 text-gray-700 mb-6">
               {property.rooms ? <span>{property.rooms} pièces</span> : null}
