@@ -121,20 +121,29 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-white text-gray-900 p-8">
       <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Admin Valérie Invest</h1>
-          <button
-            onClick={() => {
-              if (typeof window !== "undefined") {
-                localStorage.removeItem("valerie-admin-ok")
-              }
-              router.replace("/admin-login")
-            }}
-            className="text-sm px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
-          >
-            Se déconnecter
-          </button>
-        </div>
+       <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold">Admin Valérie Invest</h1>
+            <div className="flex gap-3">
+             <button
+                onClick={() => router.push("/admin/leads")}
+                className="text-sm px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+             >
+              Voir les leads
+            </button>
+            <button
+                onClick={() => {
+                if (typeof window !== "undefined") {
+                  localStorage.removeItem("valerie-admin-ok")
+                }
+                router.replace("/admin-login")
+                }}
+                className="text-sm px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+            >
+         Se déconnecter
+    </button>
+  </div>
+</div>
+
 
         {/* Formulaire ajout */}
         <div className="bg-white p-6 rounded-xl shadow-lg mb-8 border border-gray-200">
