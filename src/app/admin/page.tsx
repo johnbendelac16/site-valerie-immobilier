@@ -16,6 +16,9 @@ interface Property {
   floor?: number
   hasParking?: boolean
   description?: string
+  type?: string
+  status?: string
+  tags?: string[]
 }
 
 export default function Admin() {
@@ -32,6 +35,9 @@ export default function Admin() {
   const [floor, setFloor] = useState("")
   const [hasParking, setHasParking] = useState(false)
   const [description, setDescription] = useState("")
+  const [type, setType] = useState("appartement")
+  const [status, setStatus] = useState("a_vendre")
+  const [tags, setTags] = useState("")
   const [loading, setLoading] = useState(false)
 
   // Protection simple: redirige vers /admin-login si pas "loggé"
@@ -72,6 +78,12 @@ export default function Admin() {
           floor: floor ? Number(floor) : undefined,
           hasParking,
           description: description.trim(),
+          type,
+          status,
+          tags: tags
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean),
         }),
       })
       const property: Property = await res.json()
@@ -86,6 +98,9 @@ export default function Admin() {
       setFloor("")
       setHasParking(false)
       setDescription("")
+      setType("appartement")
+      setStatus("a_vendre")
+      setTags("")
     } catch (err) {
       console.error("Erreur ajout bien:", err)
       alert("Erreur lors de l'ajout du bien")
@@ -121,29 +136,28 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-white text-gray-900 p-8">
       <div className="max-w-5xl mx-auto">
-       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">Admin Valérie Invest</h1>
-            <div className="flex gap-3">
-             <button
-                onClick={() => router.push("/admin/leads")}
-                className="text-sm px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
-             >
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold">Admin Valérie Invest</h1>
+          <div className="flex gap-3">
+            <button
+              onClick={() => router.push("/admin/leads")}
+              className="text-sm px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+            >
               Voir les leads
             </button>
             <button
-                onClick={() => {
+              onClick={() => {
                 if (typeof window !== "undefined") {
                   localStorage.removeItem("valerie-admin-ok")
                 }
                 router.replace("/admin-login")
-                }}
-                className="text-sm px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+              }}
+              className="text-sm px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
             >
-         Se déconnecter
-    </button>
-  </div>
-</div>
-
+              Se déconnecter
+            </button>
+          </div>
+        </div>
 
         {/* Formulaire ajout */}
         <div className="bg-white p-6 rounded-xl shadow-lg mb-8 border border-gray-200">
@@ -199,7 +213,37 @@ export default function Admin() {
               />
               Parking
             </label>
+
+            <select
+              className="bg-white text-gray-900 border-2 border-gray-300 p-3 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <option value="appartement">Appartement</option>
+              <option value="penthouse">Penthouse</option>
+              <option value="maison">Maison</option>
+              <option value="duplex">Duplex</option>
+            </select>
+
+            <select
+              className="bg-white text-gray-900 border-2 border-gray-300 p-3 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="a_vendre">À vendre</option>
+              <option value="a_louer">À louer</option>
+              <option value="sous_offre">Sous offre</option>
+              <option value="vendu">Vendu</option>
+            </select>
+
+            <input
+              className="bg-white text-gray-900 border-2 border-gray-300 p-3 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none md:col-span-2"
+              placeholder="Tags (séparés par des virgules, ex: investissement, proche mer, famille)"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+            />
           </div>
+
           <div className="mb-6">
             <textarea
               className="w-full bg-white text-gray-900 border-2 border-gray-300 p-3 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none"
@@ -245,12 +289,38 @@ export default function Admin() {
                       📍 {prop.city} •{" "}
                       <span className="font-bold text-xl text-blue-600">{prop.price}</span>
                     </p>
+
                     <p className="text-sm text-gray-600">
                       {prop.rooms ? `${prop.rooms} pièces` : ""}{" "}
                       {prop.area ? `• ${prop.area} m²` : ""}{" "}
-                      {prop.floor ? `• {prop.floor}ᵉ étage` : ""}{" "}
+                      {prop.floor ? `• ${prop.floor}ᵉ étage` : ""}{" "}
                       {prop.hasParking ? "• Parking" : ""}
                     </p>
+
+                    {/* Type + statut */}
+                    <p className="text-sm text-gray-600 mt-1">
+                      {prop.type && <span>{prop.type} • </span>}
+                      {prop.status === "a_vendre" && (
+                        <span className="text-green-600">À vendre</span>
+                      )}
+                      {prop.status === "a_louer" && (
+                        <span className="text-blue-600">À louer</span>
+                      )}
+                      {prop.status === "sous_offre" && (
+                        <span className="text-amber-600">Sous offre</span>
+                      )}
+                      {prop.status === "vendu" && (
+                        <span className="text-red-600">Vendu</span>
+                      )}
+                    </p>
+
+                    {/* Tags */}
+                    {prop.tags && prop.tags.length > 0 && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        {prop.tags.join(" • ")}
+                      </p>
+                    )}
+
                     {prop.description && (
                       <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                         {prop.description}

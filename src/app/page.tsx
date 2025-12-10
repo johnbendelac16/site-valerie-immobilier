@@ -7,8 +7,6 @@ import ContactFinal from "./components/ContactFinal"
 // const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001"
 const API_BASE = "https://site-immo-backend.onrender.com"
 
-
-
 interface Property {
   id: number | string
   title: string
@@ -20,6 +18,9 @@ interface Property {
   floor?: number
   hasParking?: boolean
   description?: string
+  type?: string
+  status?: string
+  tags?: string[]
 }
 
 const CITIES = [
@@ -40,14 +41,20 @@ export default function Home() {
   const [maxPrice, setMaxPrice] = useState<string>("")
 
   useEffect(() => {
-    console.log("API_BASE =", API_BASE)
-    fetch(`${API_BASE}/api/proprietes`)
-      .then((res) => res.json())
-      .then((data) => (Array.isArray(data) ? setProperties(data) : setProperties([])))
-      .catch((err) => console.error("Erreur fetch propriétés:", err))
-  }, [])
+  console.log("API_BASE =", API_BASE)
+  fetch(`${API_BASE}/api/proprietes`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (Array.isArray(data)) {
+        console.log("PROPS SAMPLE =", data[0])
+        setProperties(data)
+      } else {
+        setProperties([])
+      }
+    })
+    .catch((err) => console.error("Erreur fetch propriétés:", err))
+}, [])
 
-  // filtres: min/max en millions, prix stocké affiché complet (1.600.000 ₪)
   const filtered = useMemo(() => {
     return properties.filter((prop) => {
       const numericString = prop.price
@@ -245,6 +252,37 @@ export default function Home() {
                       </svg>
                       <span className="font-medium">{prop.city}</span>
                     </div>
+
+                    {/* ICI : badges type + statut */}
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600 mb-2">
+                      {prop.type && (
+                        <span className="px-2 py-1 bg-gray-100 rounded-full">
+                          {prop.type}
+                        </span>
+                      )}
+                      {prop.status && (
+                        <span
+                          className={`px-2 py-1 rounded-full ${
+                            prop.status === "a_vendre"
+                              ? "bg-green-100 text-green-700"
+                              : prop.status === "a_louer"
+                              ? "bg-blue-100 text-blue-700"
+                              : prop.status === "sous_offre"
+                              ? "bg-amber-100 text-amber-700"
+                              : "bg-red-100 text-red-700"
+                          }`}
+                        >
+                          {prop.status === "a_vendre"
+                            ? "À vendre"
+                            : prop.status === "a_louer"
+                            ? "À louer"
+                            : prop.status === "sous_offre"
+                            ? "Sous offre"
+                            : "Vendu"}
+                        </span>
+                      )}
+                    </div>
+
                     <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 mb-3">
                       {prop.rooms ? <span>{prop.rooms} pièces</span> : null}
                       {prop.area ? <span>• {prop.area} m²</span> : null}
@@ -304,7 +342,7 @@ export default function Home() {
       </section>
 
       {/* Contact final */}
-      <ContactFinal/>
+      <ContactFinal />
       <section className="py-16 bg-blue-50">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
