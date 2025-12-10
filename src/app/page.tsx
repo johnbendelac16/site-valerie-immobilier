@@ -41,19 +41,19 @@ export default function Home() {
   const [maxPrice, setMaxPrice] = useState<string>("")
 
   useEffect(() => {
-  console.log("API_BASE =", API_BASE)
-  fetch(`${API_BASE}/api/proprietes`)
-    .then((res) => res.json())
-    .then((data) => {
-      if (Array.isArray(data)) {
-        console.log("PROPS SAMPLE =", data[0])
-        setProperties(data)
-      } else {
-        setProperties([])
-      }
-    })
-    .catch((err) => console.error("Erreur fetch propriétés:", err))
-}, [])
+    console.log("API_BASE =", API_BASE)
+    fetch(`${API_BASE}/api/proprietes`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          console.log("PROPS SAMPLE =", data[0])
+          setProperties(data)
+        } else {
+          setProperties([])
+        }
+      })
+      .catch((err) => console.error("Erreur fetch propriétés:", err))
+  }, [])
 
   const filtered = useMemo(() => {
     return properties.filter((prop) => {
@@ -77,50 +77,69 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Hero */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
-        <div className="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
-          <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-              Valérie Invest
-              <br />
-              Immobilier pour olim français
-            </h1>
-            <p className="text-lg md:text-xl mb-8 text-blue-100">
-              Appartements sélectionnés à Tel Aviv, Jérusalem et centre d&apos;Israël, avec
-              accompagnement complet en français.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <a
-                href="#proprietes"
-                className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition"
-              >
-                Voir mes exclusivités
-              </a>
-              <a
-                href="https://wa.me/972537081641"
-                className="border border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white/10 transition"
-              >
-                Parler sur WhatsApp
-              </a>
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <div className="bg-white/10 backdrop-blur rounded-3xl p-6 shadow-xl">
-              <p className="text-sm uppercase tracking-wide text-blue-100 mb-3">
-                Agent licencié • Rishion tivuch
-              </p>
-              <p className="text-lg">
-                • Recherche de biens sur mesure pour familles francophones
-                <br />
-                • Négociation en hébreu et suivi avec avocat israélien
-                <br />
-                • Accompagnement avant, pendant et après l&apos;achat
-              </p>
-            </div>
-          </div>
+      
+      {/* Hero = carte pleine largeur centrée */}
+{/* Hero = bandeau carte recadrée */}
+{/* Hero pro compact + carte entière avec fond coloré */}
+<section className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 text-gray-900 py-6 md:py-8 border-b border-blue-200">
+
+  <div className="container mx-auto px-4 max-w-5xl">
+    <div className="grid md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.1fr)] gap-6 items-center">
+      {/* Colonne texte */}
+      <div>
+        <p className="text-xs md:text-sm uppercase tracking-[0.22em] text-blue-700 mb-2">
+          Spécialiste • Achat • Vente • Location
+        </p>
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 leading-tight text-blue-900">
+          Accompagnement immobilier pour olim français
+        </h1>
+        <p className="text-sm md:text-base text-gray-700 mb-3">
+          Valérie Immo vous accompagne en français pour acheter, vendre ou louer votre bien
+          à Tel Aviv, Jérusalem et dans tout le centre d&apos;Israël.
+        </p>
+        <p className="text-xs md:text-sm text-gray-600 mb-4">
+          Prise de contact avant votre Alya et suivi jusqu&apos;à l&apos;acquisition de votre bien.
+        </p>
+        <div className="flex flex-wrap gap-3 mb-3">
+          <a
+            href="#proprietes"
+            className="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm text-center hover:bg-blue-700 transition"
+          >
+            Voir les exclusivités
+          </a>
+          <a
+            href="https://wa.me/972542261195"
+            className="border border-blue-600 text-blue-700 px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm text-center hover:bg-blue-50 transition"
+          >
+            Échanger sur WhatsApp
+          </a>
         </div>
-      </section>
+        <p className="text-[11px] md:text-xs text-gray-600">
+          📞 (+972) 054-2261195 • ✉️ valerieduani@gmail.com
+        </p>
+      </div>
+
+      {/* Colonne carte de visite */}
+      <div className="flex justify-center md:justify-end">
+        <div className="bg-white rounded-2xl shadow-md border border-gray-200 px-2 py-2 max-w-md w-full">
+          <img
+            src="/images/valerie-immo-card.jpg"
+            alt="Carte de visite Valérie Immo"
+            className="w-full h-auto object-contain"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
 
       {/* Filtres + propriétés */}
       <section id="proprietes" className="py-16 bg-gray-50">
@@ -135,7 +154,6 @@ export default function Home() {
               </p>
             </div>
             <div className="bg-white rounded-2xl shadow-md p-4 flex flex-col md:flex-row gap-4 items-center">
-              {/* Filtres ville */}
               <div className="flex flex-wrap gap-2">
                 {CITIES.map((c) => (
                   <button
@@ -151,7 +169,6 @@ export default function Home() {
                   </button>
                 ))}
               </div>
-              {/* Filtres prix (en millions) */}
               <div className="flex gap-2 items-center">
                 <input
                   type="text"
@@ -205,7 +222,6 @@ export default function Home() {
                   href={`/propriete/${prop.id}`}
                   className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group flex flex-col"
                 >
-                  {/* Image */}
                   <div className="relative h-56 md:h-64 overflow-hidden">
                     {prop.image ? (
                       <img
@@ -233,7 +249,6 @@ export default function Home() {
                     )}
                   </div>
 
-                  {/* Contenu */}
                   <div className="p-6 md:p-7 flex-1 flex flex-col">
                     <h3 className="text-xl md:text-2xl font-bold mb-2 text-gray-900 leading-tight line-clamp-2">
                       {prop.title}
@@ -253,7 +268,6 @@ export default function Home() {
                       <span className="font-medium">{prop.city}</span>
                     </div>
 
-                    {/* ICI : badges type + statut */}
                     <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600 mb-2">
                       {prop.type && (
                         <span className="px-2 py-1 bg-gray-100 rounded-full">
@@ -318,7 +332,7 @@ export default function Home() {
           <div>
             <h2 className="text-3xl font-bold mb-4 text-gray-800">À propos de Valérie Invest</h2>
             <p className="text-gray-600 mb-4">
-              Agent immobilier licencié en Israël, spécialisé dans l&apos;accompagnement des olim
+              Agent immobilier licencié en Israël, spécialisée dans l&apos;accompagnement des olim
               français pour l&apos;achat et la vente de biens à Tel Aviv, Jérusalem et dans tout
               le centre du pays.
             </p>
@@ -341,7 +355,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact final */}
       <ContactFinal />
       <section className="py-16 bg-blue-50">
         <div className="container mx-auto px-4 text-center">
