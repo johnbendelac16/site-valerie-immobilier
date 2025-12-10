@@ -3,10 +3,8 @@
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 
-
 // const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001"
 const API_BASE = "https://site-immo-backend.onrender.com"
-
 
 interface Property {
   id: string
@@ -19,6 +17,9 @@ interface Property {
   floor?: number
   hasParking?: boolean
   description?: string
+  type?: string
+  status?: string
+  tags?: string[]
 }
 
 export default function PropertyPage() {
@@ -63,20 +64,70 @@ export default function PropertyPage() {
             </div>
           )}
           <div className="p-6 md:p-8">
-            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 text-gray-900"></h1>
-            <p className="text-gray-700 mb-2">{property.city}</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 text-gray-900">
+              {property.title}
+            </h1>
+
+            {/* Type + statut + ville */}
+            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-700 mb-2">
+              {property.type && (
+                <span className="px-2 py-1 bg-gray-100 rounded-full text-xs">
+                  {property.type}
+                </span>
+              )}
+              {property.status && (
+                <span
+                  className={`px-2 py-1 rounded-full text-xs ${
+                    property.status === "a_vendre"
+                      ? "bg-green-100 text-green-700"
+                      : property.status === "a_louer"
+                      ? "bg-blue-100 text-blue-700"
+                      : property.status === "sous_offre"
+                      ? "bg-amber-100 text-amber-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  {property.status === "a_vendre"
+                    ? "À vendre"
+                    : property.status === "a_louer"
+                    ? "À louer"
+                    : property.status === "sous_offre"
+                    ? "Sous offre"
+                    : "Vendu"}
+                </span>
+              )}
+              <span className="text-gray-600">{property.city}</span>
+            </div>
+
+            {/* Tags */}
+            {property.tags && property.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {property.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
             <p className="text-3xl font-bold text-blue-600 mb-4">{property.price}</p>
+
             <div className="flex flex-wrap gap-3 text-gray-700 mb-6">
               {property.rooms ? <span>{property.rooms} pièces</span> : null}
               {property.area ? <span>• {property.area} m²</span> : null}
               {property.floor ? <span>• {property.floor}ᵉ étage</span> : null}
               {property.hasParking ? <span>• Parking</span> : null}
             </div>
+
             <p className="text-gray-700 mb-6 whitespace-pre-line">
               {property.description && property.description.trim().length > 0
                 ? property.description
                 : "Appartement idéal pour olim français, proche des services et transports. Personnalisez cette description dans l'admin."}
             </p>
+
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="https://wa.me/972537081641"
