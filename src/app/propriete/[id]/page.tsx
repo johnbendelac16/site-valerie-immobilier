@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
+import Link from "next/link"
 
 // const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001"
 const API_BASE = "https://site-immo-backend.onrender.com"
@@ -28,16 +29,16 @@ export default function PropertyPage() {
   const [property, setProperty] = useState<Property | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!id) return
-    fetch(`${API_BASE}/api/proprietes`)
-      .then((res) => res.json())
-      .then((data) => {
-        const prop = Array.isArray(data) ? data.find((p: any) => p.id === id) : null
-        setProperty(prop || null)
-      })
-      .finally(() => setLoading(false))
-  }, [id])
+useEffect(() => {
+  if (!id) return
+  fetch(`${API_BASE}/api/proprietes`)
+    .then((res) => res.json())
+    .then((data: Property[]) => {
+      const prop = Array.isArray(data) ? data.find((p) => p.id === id) : undefined
+      setProperty(prop ?? null)
+    })
+    .finally(() => setLoading(false))
+}, [id])
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Chargement...</div>
@@ -50,9 +51,13 @@ export default function PropertyPage() {
   return (
     <main className="min-h-screen bg-gray-50 py-10">
       <div className="container mx-auto px-4 max-w-4xl">
-        <a href="/" className="text-blue-600 text-sm font-medium mb-4 inline-block">
+        <Link
+          href="/"
+          className="text-blue-600 text-sm font-medium mb-4 inline-block"
+        >
           ← Retour aux exclusivités
-        </a>
+        </Link>
+
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           {property.image && (
             <div className="h-80 w-full overflow-hidden">
