@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import ContactFinal from "./components/ContactFinal"
 
-// const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001"
-const API_BASE = "https://site-immo-backend.onrender.com"
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001"
 
 interface Property {
   id: number | string
@@ -41,12 +41,10 @@ export default function Home() {
   const [maxPrice, setMaxPrice] = useState<string>("")
 
   useEffect(() => {
-    console.log("API_BASE =", API_BASE)
     fetch(`${API_BASE}/api/proprietes`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          console.log("PROPS SAMPLE =", data[0])
           setProperties(data)
         } else {
           setProperties([])
@@ -77,69 +75,80 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      
-      {/* Hero = carte pleine largeur centrée */}
-{/* Hero = bandeau carte recadrée */}
-{/* Hero pro compact + carte entière avec fond coloré */}
-<section className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 text-gray-900 py-6 md:py-8 border-b border-blue-200">
+      {/* Hero conciergerie */}
+      <section className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-100 text-gray-900 py-6 md:py-8 border-b border-blue-200">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="grid md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.1fr)] gap-6 items-center">
+            <div>
+              <p className="text-xs md:text-sm uppercase tracking-[0.22em] text-blue-700 mb-2">
+                Spécialiste • Achat • Vente • Location
+              </p>
+              <h1 className="text-2xl md:text-3xl font-bold mb-2 leading-tight text-blue-900">
+                Accompagnement immobilier pour olim français
+              </h1>
+              <p className="text-sm md:text-base text-gray-700 mb-3">
+                Valérie Immo vous accompagne en français pour acheter, vendre ou louer votre bien
+                à Tel Aviv, Jérusalem et dans tout le centre d&apos;Israël.
+              </p>
+              <p className="text-xs md:text-sm text-gray-600 mb-4">
+                Prise de contact avant votre Alya et suivi jusqu&apos;à l&apos;acquisition de votre bien.
+              </p>
+              <div className="flex flex-wrap gap-3 mb-3">
+                <a
+                  href="#contact-final"
+                  className="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm text-center hover:bg-blue-700 transition"
+                >
+                  Décrire mon projet
+                </a>
+                <a
+                  href="#proprietes"
+                  className="border border-blue-600 text-blue-700 px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm text-center hover:bg-blue-50 transition"
+                >
+                  Voir les exclusivités
+                </a>
+                <a
+                  href="https://wa.me/972542261195"
+                  className="border border-blue-600 text-blue-700 px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm text-center hover:bg-blue-50 transition"
+                >
+                  Échanger sur WhatsApp
+                </a>
+              </div>
+              <p className="text-[11px] md:text-xs text-gray-600">
+                📞 (+972) 054-2261195 • ✉️ valerieduani@gmail.com
+              </p>
+            </div>
 
-  <div className="container mx-auto px-4 max-w-5xl">
-    <div className="grid md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.1fr)] gap-6 items-center">
-      {/* Colonne texte */}
-      <div>
-        <p className="text-xs md:text-sm uppercase tracking-[0.22em] text-blue-700 mb-2">
-          Spécialiste • Achat • Vente • Location
-        </p>
-        <h1 className="text-2xl md:text-3xl font-bold mb-2 leading-tight text-blue-900">
-          Accompagnement immobilier pour olim français
-        </h1>
-        <p className="text-sm md:text-base text-gray-700 mb-3">
-          Valérie Immo vous accompagne en français pour acheter, vendre ou louer votre bien
-          à Tel Aviv, Jérusalem et dans tout le centre d&apos;Israël.
-        </p>
-        <p className="text-xs md:text-sm text-gray-600 mb-4">
-          Prise de contact avant votre Alya et suivi jusqu&apos;à l&apos;acquisition de votre bien.
-        </p>
-        <div className="flex flex-wrap gap-3 mb-3">
+            <div className="flex justify-center md:justify-end">
+              <div className="bg-white rounded-2xl shadow-md border border-gray-200 px-2 py-2 max-w-md w-full">
+                <img
+                  src="/images/valerie-immo-card.jpg"
+                  alt="Carte de visite Valérie Immo"
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section teaser vers le formulaire */}
+      <section id="form-projet" className="py-10 bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4 max-w-3xl text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
+            Décrivez votre projet immobilier
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Achat, location ou vente : quelques informations suffisent pour commencer
+            l&apos;accompagnement personnalisé.
+          </p>
           <a
-            href="#proprietes"
-            className="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm text-center hover:bg-blue-700 transition"
+            href="#contact-final"
+            className="inline-flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold text-sm md:text-base hover:bg-blue-700 transition"
           >
-            Voir les exclusivités
-          </a>
-          <a
-            href="https://wa.me/972542261195"
-            className="border border-blue-600 text-blue-700 px-5 py-2.5 rounded-xl font-semibold text-xs md:text-sm text-center hover:bg-blue-50 transition"
-          >
-            Échanger sur WhatsApp
+            Ouvrir le formulaire
           </a>
         </div>
-        <p className="text-[11px] md:text-xs text-gray-600">
-          📞 (+972) 054-2261195 • ✉️ valerieduani@gmail.com
-        </p>
-      </div>
-
-      {/* Colonne carte de visite */}
-      <div className="flex justify-center md:justify-end">
-        <div className="bg-white rounded-2xl shadow-md border border-gray-200 px-2 py-2 max-w-md w-full">
-          <img
-            src="/images/valerie-immo-card.jpg"
-            alt="Carte de visite Valérie Immo"
-            className="w-full h-auto object-contain"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-
-
-
-
-
+      </section>
 
       {/* Filtres + propriétés */}
       <section id="proprietes" className="py-16 bg-gray-50">
@@ -152,6 +161,12 @@ export default function Home() {
               <p className="text-gray-600">
                 {properties.length} biens enregistrés, filtrez par ville et budget.
               </p>
+              {properties.length === 0 && (
+                <p className="text-gray-500 text-sm mt-1">
+                  Les premiers biens arrivent progressivement. En attendant, la plupart des
+                  recherches se font sur mesure selon votre projet.
+                </p>
+              )}
             </div>
             <div className="bg-white rounded-2xl shadow-md p-4 flex flex-col md:flex-row gap-4 items-center">
               <div className="flex flex-wrap gap-2">
@@ -196,7 +211,9 @@ export default function Home() {
               <p className="text-xl text-gray-500 mb-4">
                 Aucun bien disponible pour le moment
               </p>
-              <p className="text-gray-400">Contactez-moi pour une recherche sur mesure.</p>
+              <p className="text-gray-400">
+                Contactez-moi pour une recherche sur mesure via le formulaire ou WhatsApp.
+              </p>
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-16">
@@ -333,12 +350,13 @@ export default function Home() {
             <h2 className="text-3xl font-bold mb-4 text-gray-800">À propos de Valérie Invest</h2>
             <p className="text-gray-600 mb-4">
               Agent immobilier licencié en Israël, spécialisée dans l&apos;accompagnement des olim
-              français pour l&apos;achat et la vente de biens à Tel Aviv, Jérusalem et dans tout
-              le centre du pays.
+              français pour l&apos;achat, la vente et la location de biens à Tel Aviv, Jérusalem
+              et dans tout le centre du pays.
             </p>
             <p className="text-gray-600">
-              De la première visite jusqu&apos;à la signature chez l&apos;avocat, chaque étape est
-              expliquée en français, avec un suivi personnalisé et transparent.
+              De la première prise de contact (même avant votre Alya) jusqu&apos;à la signature
+              chez l&apos;avocat, chaque étape est expliquée en français, avec un suivi
+              personnalisé et transparent.
             </p>
           </div>
           <div className="bg-gray-50 rounded-2xl p-6 shadow-md">
@@ -355,32 +373,8 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Formulaire principal unique */}
       <ContactFinal />
-      <section className="py-16 bg-blue-50">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-            Prêt à visiter ou à vendre ?
-          </h2>
-          <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
-            Décrivez votre projet (achat, vente, budget, ville) et recevez une réponse
-            personnalisée rapidement.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-xl mx-auto">
-            <a
-              href="https://wa.me/972537081641"
-              className="bg-green-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-600 shadow-lg w-full sm:w-auto text-center"
-            >
-              Écrire sur WhatsApp
-            </a>
-            <a
-              href="tel:+972537081641"
-              className="bg-white text-blue-700 border border-blue-400 px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 shadow w-full sm:w-auto text-center"
-            >
-              Appeler maintenant
-            </a>
-          </div>
-        </div>
-      </section>
     </main>
   )
 }
